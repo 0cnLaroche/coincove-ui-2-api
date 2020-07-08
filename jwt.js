@@ -30,7 +30,7 @@ const authenticateToken = (req, res, next) => {
 
 const generateAccessToken = (content) => {
     return jwt.sign(content, process.env.ACCESS_TOKEN_SECRET, 
-        {expiresIn: "10m"})
+        {expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "30m"})
 }
 
 module.exports = {authenticateToken, generateAccessToken};

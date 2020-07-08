@@ -33,11 +33,10 @@ router.get('/picture/:id', (req, res) => {
     })
 });
 
-router.post('/picture', upload.single('picture'), (req, res) => {
+router.post('/picture', authenticateToken, upload.single('picture'), (req, res) => {
     var img = {
         contentType: req.file.mimetype,
         fileName: req.file.originalname,
-        //file: new Buffer(encode_image, 'base64')
         file: req.file.buffer
     }
     const { error } = validate(img);
