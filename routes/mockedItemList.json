@@ -1,7 +1,0 @@
-[
-    { "id": 1, "name": "A nice product", "producer": "An artist", "imageUrl": "#", "price": 100.0, "inventory": 1},
-    { "id": 2, "name": "Another nice product", "producer": "An artist", "imageUrl": "#", "price": 95.0, "inventory": 1},
-    { "id": 3, "name": "A bad product", "producer": "An artist", "imageUrl": "#", "price": 5.0, "inventory": 1},
-    { "id": 4, "name": "A very nice product", "producer": "An artist", "imageUrl": "#", "price": 210.0, "inventory": 1},
-    { "id": 5, "name": "A fantastic served product", "producer": "TheRock", "imageUrl": "#", "price": 2.0, "inventory": 1}
-]

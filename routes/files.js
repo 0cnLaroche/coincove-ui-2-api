@@ -2,7 +2,7 @@ var express = require('express');
 var multer = require('multer');
 var fs = require('fs');
 var dotenv = require('dotenv');
-var { Image, validate } = require('../model/image');
+var { Image, validateImage } = require('../model/image');
 var { authenticateToken } = require('../jwt');
 var logger = require('../logger');
 var router = express.Router();
@@ -39,7 +39,7 @@ router.post('/picture', authenticateToken, upload.single('picture'), (req, res) 
         fileName: req.file.originalname,
         file: req.file.buffer
     }
-    const { error } = validate(img);
+    const { error } = validateImage(img);
     if (error) {
         logger.error('Validation error on picture: ' + error.details[0].message);
         return res.status(400).send(error.details[0].message);

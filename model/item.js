@@ -45,8 +45,8 @@ const ItemSchema = new mongoose.Schema({
 
 const Item = mongoose.model('Item', ItemSchema);
 
-//function to validate Item 
-function validateItem(item) {
+/** Validates Item object against Joi schema */
+function validate(item) {
     const schema = Joi.object({
       name: Joi.string().min(3).max(100).required(),
       producer: Joi.string().min(3).max(100).required(),
@@ -62,4 +62,4 @@ function validateItem(item) {
   }
   
   exports.Item = Item; 
-  exports.validate = validateItem;
+  exports.validateItem = validate;

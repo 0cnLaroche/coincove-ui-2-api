@@ -1,9 +1,8 @@
 var express = require('express');
-var { Item, validate } = require('../model/item');
+var { Item, validateItem } = require('../model/item');
 var { authenticateToken } = require('../jwt');
 var logger = require('../logger');
 var router = express.Router();
-var mockedItemList = require('./mockedItemList.json');
 
 /* GET items listing. */
 router.get('/', async (req, res, next) => {
@@ -23,7 +22,7 @@ router.post('/', authenticateToken, (req, res) => {
     logger.debug("User need admin access to add items", req.user);
     return res.status(401).send("User need admin access to add items")
   }
-  const { error } = validate(req.body);
+  const { error } = validateItem(req.body);
   if (error) {
     logger.error("Validation error on Item ", req.body);
     return res.status(400).send(error.details[0].message);
