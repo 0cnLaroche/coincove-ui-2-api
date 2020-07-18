@@ -21,8 +21,8 @@ const ImageSchema = new mongoose.Schema({
 
 const Image = mongoose.model('Image', ImageSchema);
 
-//function to validate Image 
-function validateImage(image) {
+/** Validate Image object against schema */
+function validate(image) {
     const schema = Joi.object({
       contentType: Joi.string().required(),
       fileName: Joi.string().max(255),
@@ -34,4 +34,4 @@ function validateImage(image) {
   }
   
 exports.Image = Image; 
-exports.validate = validateImage;
+exports.validateImage = validate;

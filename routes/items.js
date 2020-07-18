@@ -34,4 +34,28 @@ router.post('/', authenticateToken, (req, res) => {
   });
 })
 
+/* PUT item */
+router.put('/:id', authenticateToken, (req, res) => {
+  if (!req.user.isAdmin) {
+    logger.debug("User need admin access to add items", req.user);
+    return res.status(401).send("User need admin access to add items")
+  }
+  const { error } = validateItem(req.body);
+  if (error) {
+    logger.error("Validation error on Item ", req.body);
+    return res.status(400).send(error.details[0].message);
+  }
+  //const item = new Item(req.body);
+  //item._id = req.params.id;
+  Item.updateOne({_id: req.params.id}, req.body, {runValidator:true}, (err, item) => {
+  //item.save((err, item) => {
+    if (err) {
+      logger.error(err);
+      return res.status(500).send("Error while saving entity");
+    }
+    logger.debug("Item saved", item)
+    return res.status(201).send(item);
+  });
+})
+
 module.exports = router;

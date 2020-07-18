@@ -11,7 +11,7 @@ dotenv.config();
  */
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers["x-access-token"] || req.headers['authorization'];
-    console.log(req.headers);
+    logger.debug(req.headers);
     const token = authHeader && authHeader.split(' ')[1];
     if (token == null) {
         // NOT AUTHORIZED

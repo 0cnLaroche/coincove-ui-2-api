@@ -33,7 +33,7 @@ db.once('open', () => {
     logger.info("Connected to datasource");
 })
 
-var app = express();
+const app = express();
 
 const contextPath = process.env.CONTEXT_PATH;
 
@@ -58,6 +58,14 @@ app.use(path.join(contextPath, '/items'), itemsRouter);
 app.use(path.join(contextPath, '/login'), loginRouter);
 app.use(path.join(contextPath, '/files'), filesRouter);
 
-logger
+/*
+ * RedirectApp redirects all request to HTTPS
+ */
+const redirectApp = express();
 
-module.exports = app;
+redirectApp.all('*', (req, res) => {
+    res.redirect(301, `https://${req.headers.host}${req.url}`);
+})
+
+exports.app = app;
+exports.redirectApp = redirectApp;
