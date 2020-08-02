@@ -45,10 +45,7 @@ router.put('/:id', authenticateToken, (req, res) => {
     logger.error("Validation error on Item ", req.body);
     return res.status(400).send(error.details[0].message);
   }
-  //const item = new Item(req.body);
-  //item._id = req.params.id;
   Item.updateOne({_id: req.params.id}, req.body, {runValidator:true}, (err, item) => {
-  //item.save((err, item) => {
     if (err) {
       logger.error(err);
       return res.status(500).send("Error while saving entity");

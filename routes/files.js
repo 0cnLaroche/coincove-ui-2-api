@@ -13,7 +13,7 @@ dotenv.config();
 const createFileUrl = (id, protocol) => {
     var base = `${protocol}://${process.env.HOST}`
     var url = new URL(base);
-    url.pathname = `${process.env.CONTEXT_PATH}/files/picture/${id}`;
+    url.pathname = `${process.env.API_CONTEXT_PATH}/files/picture/${id}`;
     if (process.env.NODE_ENV === 'development') {
         url.port = process.env.PORT;
     }

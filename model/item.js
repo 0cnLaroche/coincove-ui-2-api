@@ -36,6 +36,10 @@ const ItemSchema = new mongoose.Schema({
       min: 0,
       required: false
     },
+    discount: {
+      type: Number,
+      min: 0
+    },
     inventory: {
       type: Number,
       min: 0,
@@ -55,6 +59,7 @@ function validate(item) {
       section: Joi.string(),
       imageUrl: Joi.string().min(3).required(),
       price: Joi.number().min(0).required(),
+      discount: Joi.number().min(0).optional(),
       inventory: Joi.number().min(0).required()
     });
   

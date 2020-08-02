@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * Register alias
+ */
+
+require('module-alias/register')
+
 /**
  * Module dependencies.
  */

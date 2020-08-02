@@ -1,17 +1,19 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var morganLogger = require('morgan');
-var dotenv = require('dotenv');
-var mongoose = require('mongoose');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const morganLogger = require('morgan');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
-var logger = require('./logger');
+const logger = require('./logger');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var itemsRouter = require('./routes/items');
-var loginRouter = require('./routes/login');
-var filesRouter = require('./routes/files');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const itemsRouter = require('./routes/items');
+const loginRouter = require('./routes/login');
+const filesRouter = require('./routes/files');
+const ordersRouter = require('./routes/orders');
+
 
 /*
  * Load environment variables
@@ -19,7 +21,7 @@ var filesRouter = require('./routes/files');
 dotenv.config(); 
 
 //CORS middleware
-var cors = function(req, res, next) {
+const cors = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -28,14 +30,14 @@ var cors = function(req, res, next) {
 
 /* Create connection to datasource */
 mongoose.connect(process.env.DATASOURCE, {useNewUrlParser: true, useUnifiedTopology: true});
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.once('open', () => {
     logger.info("Connected to datasource");
 })
 
 const app = express();
 
-const contextPath = process.env.CONTEXT_PATH;
+const apiContextPath = process.env.API_CONTEXT_PATH;
 
 app.use(cors);
 app.use(morganLogger('dev'));
@@ -53,10 +55,11 @@ app.use('/', indexRouter);
 /*
  * API routes
  */
-app.use(path.join(contextPath, '/users'), usersRouter);
-app.use(path.join(contextPath, '/items'), itemsRouter);
-app.use(path.join(contextPath, '/login'), loginRouter);
-app.use(path.join(contextPath, '/files'), filesRouter);
+app.use(path.join(apiContextPath, '/users'), usersRouter);
+app.use(path.join(apiContextPath, '/items'), itemsRouter);
+app.use(path.join(apiContextPath, '/login'), loginRouter);
+app.use(path.join(apiContextPath, '/files'), filesRouter);
+app.use(path.join(apiContextPath, '/orders'), ordersRouter);
 
 /*
  * RedirectApp redirects all request to HTTPS

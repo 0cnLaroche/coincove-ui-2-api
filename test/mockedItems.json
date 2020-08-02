@@ -1,0 +1,21 @@
+[{
+    "_id":"111111111111111111111111",
+    "tags": [],
+    "name": "test Item1",
+    "producer": "test",
+    "description": "test details",
+    "imageUrl": "###",
+    "inventory": 1,
+    "discount": 2.11,
+    "price": 11.11
+},
+{
+    "_id": "222222222222222222222222",
+    "tags": [],
+    "name": "test Item2",
+    "producer": "test",
+    "description": "test details",
+    "imageUrl": "###",
+    "inventory": 1,
+    "price": 22.22
+}]

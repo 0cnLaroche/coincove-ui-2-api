@@ -1,7 +1,9 @@
 const { createLogger, format, transports } = require('winston');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const logger = createLogger({
-  level: 'info',
+  level: process.env.LOGGING_LEVEL || 'info',
   format: format.combine(
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'

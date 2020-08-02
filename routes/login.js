@@ -27,7 +27,7 @@ router.post("/", async (req,res) => {
         return res.status(401).send("Wrong email or password");
     }
     const token = generateAccessToken(user);
-    res.json({_id: user._id, token: token});
+    res.json({_id: user._id, token: token, isAdmin: user.isAdmin});
 })
 
 module.exports = router;

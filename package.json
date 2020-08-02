@@ -3,10 +3,13 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
@@ -14,9 +17,22 @@
     "express": "~4.16.1",
     "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
     "mongoose": "^5.9.16",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
+    "querystring": "^0.2.0",
     "winston": "^3.2.1"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@model": "model",
+    "@routes": "routes",
+    "@services": "services",
+    "@jwt": "jwt.js"
+  },
+  "devDependencies": {
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4"
   }
 }
