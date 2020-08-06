@@ -21,6 +21,7 @@ installMongoDb()
     wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
     echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
     sudo apt-get update
+    sudo apt-get install -y mongodb-org
     echo "MongoDB installation completed. Lunching mongo process"
     sudo systemctl start mongod
     sudo systemctl enable mongod
@@ -52,13 +53,13 @@ updateWebApp()
 
 echo "********** DEPLOYING *************"
 echo "Looking for dependencies"
-if ! command -v git &> /dev/null
-then
-    echo "git could not be found. Installing git ..."
-    sudo apt install git-all
-else 
-    echo "git found"
-fi
+#if ! command -v git &> /dev/null
+#then
+#    echo "git could not be found. Installing git ..."
+#    sudo apt install git-all
+#else 
+#    echo "git found"
+#fi
 if ! command -v node &> /dev/null
 then
     echo "node could not be found. Installing node js ..."
