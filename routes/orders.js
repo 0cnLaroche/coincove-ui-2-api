@@ -4,7 +4,6 @@ const { ValidationError, OrderError } = require('../error');
 const orderService = require('../services/orderService');
 const { authenticateToken } = require('../jwt');
 const logger = require('../logger');
-const { Item } = require('../model/item');
 const router = express.Router();
 
 /** POST new order. Validates order before accepting it */
@@ -55,10 +54,12 @@ router.get('/:id', authenticateToken, (req, res) => {
         logger.debug(msg);
         return res.status(401).send(msg);
     }
-    Item.findById(req.params.id, (err, order) => {
+    Order.findById(req.params.id, (err, order) => {
         if(err) {
+            logger.debug("Did not find order for id %s", req.params.id);
             return res.sendStatus(404);
         }
+        logger.debug("Found order %s", order._id);
         return res.send(order);
     })
 })
