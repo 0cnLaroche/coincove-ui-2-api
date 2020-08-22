@@ -33,6 +33,8 @@ const OrderSchema = new mongoose.Schema({
     subtotal: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
     paymentId: { type: String },
+    paypalOrderId: { type: String },
+    email: { type: String, required:true },
     status: { type: String, required: true, enum: Object.values(status) },
     trackingId: { type: String },
     created: { type: Date, default: Date.now(), required: true },
@@ -66,6 +68,8 @@ const validate = (order) => {
         subtotal: Joi.number().min(0).required(),
         total: Joi.number().min(0).required(),
         paymentId: Joi.string(),
+        paypalOrderId: Joi.string(),
+        email: Joi.string().email().required(),
         status: Joi.any().valid(...Object.values(status)).required(),
         trackingId: Joi.string().optional(),
         created: Joi.date().required()
