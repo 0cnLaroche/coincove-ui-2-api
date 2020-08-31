@@ -14,17 +14,17 @@ axios.interceptors.request.use(request => {
         method: request.method,
         data: request.data
     })
-    return request
-  })
+    return request;
+})
   
-  axios.interceptors.response.use(response => {
+axios.interceptors.response.use(response => {
     logger.debug('Response: %O', {
         status: response.status,
         statusText: response.statusText,
         data: response.data
     })
-    return response
-  })
+    return response;
+})
 
 
 const testNonStatic = () => {
@@ -103,8 +103,35 @@ class PaypalService {
                 'authorization' : `Bearer ${token}`
             }
         }
-        const response = await axios.get(url, config);
-        return response.data;
+        const { data } = await axios.get(url, config);
+        return data;
+    }
+
+    /** POST tracking number for transaction. Paypal will
+     * lift hold on funds when shipment is received by client
+     * @param transaction_id payment Paypal transaction id
+     * @param tracking_number shipment tracking number
+     * @param carrier carrier name
+     */
+    async postTrackingId(transaction_id, tracking_number, carrier) {
+        const url = `${process.env.PAYPAL_URL}/v1/shipping/trackers-batch`
+        const token = await this.getAccessToken();
+        const config = {
+            headers: { 
+                'authorization' : `Bearer ${token}`
+            }
+        }
+        const data = {
+            trackers: [
+                {
+                transaction_id,
+                tracking_number,
+                status: "SHIPPED",
+                carrier
+              },
+            ]
+        }
+        return await axios.post(url, data, config);
     }
 }
 
