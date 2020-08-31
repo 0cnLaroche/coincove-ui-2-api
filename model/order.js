@@ -21,7 +21,8 @@ const OrderLineSchema = new mongoose.Schema({
     itemId: { type: String, required: true },
     units: { type: Number, required: true, min: 1 },
     price: { type: Number, required: true, min: 0 }, 
-    discount: { type: Number, max: 0 }
+    discount: { type: Number, max: 0 },
+    options: [{ name: String, value: String}]
 })
 
 const OrderSchema = new mongoose.Schema({
@@ -57,7 +58,13 @@ const validate = (order) => {
                 itemId: Joi.string().alphanum().required(),
                 units: Joi.number().min(1).required(),
                 price: Joi.number().required().min(0),
-                discount: Joi.number().max(0)
+                discount: Joi.number().max(0),
+                options: Joi.array().items(
+                    Joi.object({
+                        name: Joi.string().required(),
+                        value: Joi.string().required()
+                    }).optional()
+                )
         })).required(),
         taxes: Joi.array().items(
             Joi.object({

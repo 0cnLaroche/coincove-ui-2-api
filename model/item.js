@@ -44,7 +44,11 @@ const ItemSchema = new mongoose.Schema({
       type: Number,
       min: 0,
       required: true
-    }
+    },
+    options: [{
+      name: {type: String, required: true},
+      choices: { type: Array, required: true}
+    }]
   });
 
 const Item = mongoose.model('Item', ItemSchema);
@@ -60,7 +64,14 @@ function validate(item) {
       imageUrl: Joi.string().min(3).required(),
       price: Joi.number().min(0).required(),
       discount: Joi.number().min(0).optional(),
-      inventory: Joi.number().min(0).required()
+      inventory: Joi.number().min(0).required(),
+      options: Joi.array().items(
+        Joi.object({
+          name: Joi.string().required(),
+          choices: Joi.array().items(
+            Joi.string().required()
+          ).required()
+        })).optional()
     });
   
     return schema.validate(item);
