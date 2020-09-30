@@ -22,7 +22,6 @@ const createFileUrl = (id, protocol) => {
 }
 
 router.get('/picture/:id', (req, res) => {
-    console.log("reveived request for image")
     Image.findById(req.params.id, (err, img) => {
         if (err) {
             logger.error(error);
@@ -46,7 +45,7 @@ router.post('/picture', authenticateToken, upload.single('picture'), (req, res) 
     }
     img = new Image(img);
     img.save((err, img) => {
-        logger.info("Image save with id " + img._id);
+        logger.debug("Image save with id " + img._id);
         img.url = createFileUrl(img._id, req.protocol);
         return res.status(201).send(img);
     });
