@@ -13,6 +13,7 @@ const itemsRouter = require('./routes/items');
 const loginRouter = require('./routes/login');
 const filesRouter = require('./routes/files');
 const ordersRouter = require('./routes/orders');
+const contactRouter = require('./routes/contact');
 
 
 /*
@@ -60,6 +61,7 @@ app.use(path.join(apiContextPath, '/items'), itemsRouter);
 app.use(path.join(apiContextPath, '/login'), loginRouter);
 app.use(path.join(apiContextPath, '/files'), filesRouter);
 app.use(path.join(apiContextPath, '/orders'), ordersRouter);
+app.use(path.join(apiContextPath, '/contact'), contactRouter);
 
 /*
  * RedirectApp redirects all request to HTTPS

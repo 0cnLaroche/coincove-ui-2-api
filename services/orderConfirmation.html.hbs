@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"-->
+    <link rel="stylesheet" href="orderConfirmation.css">
+  </head>
+  <body>
+    <header>
+      <h1>{{company}}</h1>
+    </header>
+    <main>
+      <section class="message">
+        <h2>Thank you for your order!</h2>
+        <p>Your order number : <a href="#">{{_id}}</a></p>
+        <p>Some information text</p>
+      </section>
+      <table class="order">
+        <colgroup>
+          <col class="description"/>
+          <col class="amount"/>
+        </colgroup>
+        <tbody>
+          <tr>
+            <th colspan="2">Order details</th>
+          </tr>
+          {{#each orderLines}}
+          <tr class="order-item">
+            <td>{{this.description}}</td>
+            <td>{{numberFormat this.price}}</td>
+          </tr>
+          {{/each}}
+          <tr class="order-item shipping-row">
+            <td>Shipping</td>
+            <td>{{numberFormat shipping}}</td>
+          </tr>
+          {{#each taxes}}
+          <tr class="taxes-row">
+            <td>{{this.tax}}</td>
+            <td>{{numberFormat this.amount}}/td>
+          </tr>
+          {{/each}}
+          <tr class="total-row">
+            <td>TOTAL</td>
+            <td>${{numberFormat total}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="details-container">
+        <div>
+          <h3>Delivery Address</h3>
+          <address>
+            {{shippingAddress.firstName}}, {{shippingAddress.lastName}}</br>
+            {{shippingAddress.address1}}, {{shippingAddress.address2}}</br>
+            {{shippingAddress.city}}, {{shippingAddress.state}}  {{shippingAddress.postalCode}}</br>
+            {{shippingAddress.country}}</br>
+          </address>
+        </div>
+        <div>
+          <h3>Shipping Details</h3>
+          <p>Shipping number : <a href="#">{{trackingId}}</a></p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>Copyright © <a href="https://ecove.ca">ecove solutions</a> 2020</p>
+    </footer>
+  </body>
+</html>

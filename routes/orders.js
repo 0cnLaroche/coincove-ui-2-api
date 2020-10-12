@@ -3,6 +3,7 @@ const { Order, validateOrder, status } = require('../model/order');
 const { ValidationError, OrderError } = require('../error');
 const orderService = require('../services/orderService');
 const paypalService = require('../services/paypalService');
+const mailer = require('../services/mailer');
 const { authenticateToken } = require('../jwt');
 const logger = require('../logger');
 const { auth } = require('googleapis/build/src/apis/abusiveexperiencereport');
@@ -42,7 +43,11 @@ router.post('/', async (req, res) => {
             logger.error('Could not save order %O', order)
         }
         logger.debug('Order %s saved!', order._id);
-        return res.status(httpStatus ? httpStatus : 201).send(order);
+        mailer.sendOrderConfirmation(order.toObject())
+        .then(info => {
+            logger.debug("Confirmation email sent");
+        })
+        return res.status(httpStatus ? httpStatus : 201).send(order.toObject());
     })
 });
 

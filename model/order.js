@@ -30,6 +30,7 @@ const OrderSchema = new mongoose.Schema({
     shippingAddress: { type: Address.schema, required: true },
     orderLines: [OrderLineSchema],
     taxes: [{tax: String, amount: Number}],
+    discount: { type: Number, min: 0 },
     shipping: { type: Number, min: 0 },
     subtotal: { type: Number, required: true, min: 0 },
     total: { type: Number, required: true, min: 0 },
@@ -71,6 +72,7 @@ const validate = (order) => {
                 tax: Joi.string().required(), 
                 amount: Joi.number().required()
         })),
+        discount: Joi.number().min(0),
         shipping: Joi.number().min(0),
         subtotal: Joi.number().min(0).required(),
         total: Joi.number().min(0).required(),
