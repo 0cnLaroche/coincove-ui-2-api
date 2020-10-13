@@ -71,6 +71,29 @@ const send = (to, subject, body) => {
     });
 }
 
+/**
+ * Send email using smtp credentials
+ * @param {*} to destination email(s). Can be a string or an array of emails
+ * @param {any} onBehalfOf name and email that appears as from and to be replied to
+ * @param {String} subject email subject
+ * @param {*} body email body as plain text or html
+ * @returns {Promise}
+ */
+const sendOnBehalfOf = (to, onBehalfOf, subject, body) => {
+    if (to instanceof Array) {
+        to = to.join(', ');
+    }
+    return transporter.sendMail({
+        //from: onBehalfOf, // Doesn't seem to be working
+        //sender: `"${process.env.COMPANY_NAME}" <${process.env.SMTP_USERNAME}>`,
+        from: `"${process.env.COMPANY_NAME}" <${process.env.SMTP_USERNAME}>`,
+        to,
+        replyTo: onBehalfOf,
+        subject,
+        html: body
+    });
+}
+
 const sendOrderConfirmation = async (order) => {
     const to = order.email;
     order.company = process.env.COMPANY_NAME;
@@ -102,3 +125,4 @@ const sendOrderConfirmation = async (order) => {
 
 exports.send = send;
 exports.sendOrderConfirmation = sendOrderConfirmation;
+exports.sendOnBehalfOf = sendOnBehalfOf;

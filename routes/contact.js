@@ -1,17 +1,29 @@
 require('dotenv').config();
-var express = require('express');
-var multer = require('multer');
-var fs = require('fs');
-var logger = require('../logger');
+const express = require('express');
+const handlebars = require('handlebars');
+const fs = require('fs');
+const path = require('path');
+const logger = require('../logger');
 const mailer = require('../services/mailer');
-var router = express.Router();
+const router = express.Router();
 
 router.post('/', (req, res) => {
     const { message, email, name } = req.body;
-    const emailBody = `From : ${name} \n email: ${email} \n Message: ${message}`;
-    mailer.send(process.env.CONTACT_EMAIL, "Information Request", emailBody)
-    .then(info => {
-        res.sendStatus(201);
+    const filePath = path.join(__dirname, 'contactUsMessage.html.hbs');
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            logger.error(err);
+        }
+        const template = handlebars.compile(data.toString());
+        mailer.sendOnBehalfOf(
+            process.env.CONTACT_EMAIL,
+            { name, address: email },
+            "Information Request", 
+            template({message, email, name}))
+        .then(info => {
+            logger.debug("Contact form sent");
+            res.sendStatus(201);
+        })
     })
 });
 

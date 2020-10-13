@@ -17,6 +17,22 @@ describe('mailer.js', () => {
             })
         })
     })
+    describe('#sendOnBehalfOf()', () => {
+        it('Should deliver email', (done) => {
+            mailer.sendOnBehalfOf(
+                'samuellaroche@ecove.ca', 
+                {name: "Not the sender", address: "samuellaroche@live.ca"},
+                'unit testing on behalf of', 
+                'Hello World! Testing sending on behalf of')
+            .then(info => {
+                console.log("Message sent: %s", info.messageId);
+                done();
+            })
+            .catch(err => {
+                assert.fail(err);
+            })
+        })
+    })
     describe('#sendOrderConfirmation()', () => {
         it('Should deliver email', (done) => {
 
