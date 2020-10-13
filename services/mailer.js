@@ -108,16 +108,20 @@ const sendOrderConfirmation = async (order) => {
                 })
             }
             const template = handlebars.compile(data.toString());
-            send(to, "Order Confirmation", template(order))
-                .then(data => {
-                    resolve(data);
+            transporter.sendMail({
+                from: {name: process.env.COMPANY_NAME, address: process.env.SMTP_USERNAME},
+                to,
+                replyTo: {name: "Sales", address: process.env.SMTP_USERNAME},
+                subject: "Order Confirmation",
+                html: template(order)
+            }).then(data => {
+                resolve(data);
+            }).catch(error => {
+                reject({
+                    msg: "An error occured while sending email",
+                    error
                 })
-                .catch(error => {
-                    reject({
-                        msg: "An error occured while sending email",
-                        error
-                    })
-                })
+            })
         })
     })
 
