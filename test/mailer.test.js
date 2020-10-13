@@ -20,7 +20,7 @@ describe('mailer.js', () => {
     describe('#sendOnBehalfOf()', () => {
         it('Should deliver email', (done) => {
             mailer.sendOnBehalfOf(
-                'samuellaroche@ecove.ca', 
+                'dev-testing@ecove.ca', 
                 {name: "Not the sender", address: "samuellaroche@live.ca"},
                 'unit testing on behalf of', 
                 'Hello World! Testing sending on behalf of')
@@ -41,7 +41,7 @@ describe('mailer.js', () => {
                 shipping: 5.0,
                 total: 115.0,
                 taxes: {},
-                email: 'samuellaroche@ecove.ca',
+                email: 'dev-testing@ecove.ca',
                 orderLines: [
                     { description: "item description 1", price: 9.99}, 
                     { description: "item description 2", price: 78.78}

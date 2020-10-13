@@ -111,6 +111,7 @@ const sendOrderConfirmation = async (order) => {
             transporter.sendMail({
                 from: {name: process.env.COMPANY_NAME, address: process.env.SMTP_USERNAME},
                 to,
+                bcc: process.env.CONTACT_EMAIL,
                 replyTo: {name: "Sales", address: process.env.SMTP_USERNAME},
                 subject: "Order Confirmation",
                 html: template(order)
