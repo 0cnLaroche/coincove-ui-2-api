@@ -49,11 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(process.env.WEBAPP_DISTRIBUTION, 'build')));
 
 /*
- * Web App route
- */
-app.use('/', indexRouter);
-
-/*
  * API routes
  */
 app.use(path.join(apiContextPath, '/users'), usersRouter);
@@ -62,6 +57,11 @@ app.use(path.join(apiContextPath, '/login'), loginRouter);
 app.use(path.join(apiContextPath, '/files'), filesRouter);
 app.use(path.join(apiContextPath, '/orders'), ordersRouter);
 app.use(path.join(apiContextPath, '/contact'), contactRouter);
+
+/*
+ * Web App route
+ */
+app.use('/*', indexRouter);
 
 /*
  * RedirectApp redirects all request to HTTPS
