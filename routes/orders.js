@@ -20,6 +20,10 @@ router.post('/', async (req, res) => {
     try {
         validateOrder(order);
         await orderService.processOrder(order);
+        mailer.sendOrderConfirmation(order.toObject())
+        .then(info => {
+            logger.debug("Confirmation email sent");
+        })
     } catch (error) {
         if (error instanceof ValidationError) {
             logger.error('%O', error.details.message);
@@ -40,13 +44,10 @@ router.post('/', async (req, res) => {
     order = new Order(order);
     order.save((err, order) => {
         if(err) {
-            logger.error('Could not save order %O', order)
+            logger.error('Could not save order %O', order);
+        } else {
+            logger.debug('Order %s saved!', order._id);
         }
-        logger.debug('Order %s saved!', order._id);
-        mailer.sendOrderConfirmation(order.toObject())
-        .then(info => {
-            logger.debug("Confirmation email sent");
-        })
         return res.status(httpStatus ? httpStatus : 201).send(order.toObject());
     })
 });
