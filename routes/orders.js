@@ -18,12 +18,14 @@ router.post('/', async (req, res) => {
     let httpStatus;
     let data;
     try {
+        order = new Order(order);
+        await order.save();
         validateOrder(order);
         await orderService.processOrder(order);
         mailer.sendOrderConfirmation(order.toObject())
         .then(info => {
-            logger.debug("Confirmation email sent");
-        })
+            logger.debug("Confirmation email sent " + info.accepted);
+        });
     } catch (error) {
         if (error instanceof ValidationError) {
             logger.error('%O', error.details.message);
@@ -41,15 +43,7 @@ router.post('/', async (req, res) => {
             data = error.message;
         }   
     }
-    order = new Order(order);
-    order.save((err, order) => {
-        if(err) {
-            logger.error('Could not save order %O', order);
-        } else {
-            logger.debug('Order %s saved!', order._id);
-        }
-        return res.status(httpStatus ? httpStatus : 201).send(order.toObject());
-    })
+    return res.status(httpStatus ? httpStatus : 201).send(order.toObject());
 });
 
 router.patch('/:id', authenticateToken, (req, res) => {

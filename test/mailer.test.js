@@ -21,7 +21,7 @@ describe('mailer.js', () => {
         it('Should deliver email', (done) => {
             mailer.sendOnBehalfOf(
                 'dev-testing@ecove.ca', 
-                {name: "Not the sender", address: "samuellaroche@live.ca"},
+                {name: "Not the sender", address: "dev-testing@ecove.ca"},
                 'unit testing on behalf of', 
                 'Hello World! Testing sending on behalf of')
             .then(info => {

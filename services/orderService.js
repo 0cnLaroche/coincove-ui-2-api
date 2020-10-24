@@ -33,6 +33,7 @@ const processOrder = async (order) => {
         throw error;
     }
     order.status = status.APPROVED;
+    updateInventory(order.orderLines);
     return order;
 }
 
@@ -52,7 +53,7 @@ const createInvoiceLines = async (orderLines) => {
                     assert.ok(item, "Item must exist");
                     assert.strictEqual(item.price, ol.price, "Item price not equal to order line");
                     let discount = (item.discount === undefined) ? 0 : item.discount;
-                    const invoiceLineAmount = Number((ol.units * (item.price - discount)).toFixed(2));
+                    const invoiceLineAmount = Number(((ol.units * ((item.price - discount) * 100)) / 100).toFixed(2));
                     assert.ok(invoiceLineAmount >= 0, "Invoice line amount cannot be under 0")
                     return invoiceLineAmount;
 
@@ -84,8 +85,22 @@ const verifyPayment = async (paymentAmount, autorizationId) => {
     }
 }
 
+/**
+ * Decrement item inventory from order lines
+ * @param {*} orderLines 
+ * @returns {Promise<Item>} 
+ */
+const updateInventory = (orderLines) => {
+    let promises = [];
+    orderLines.forEach(line => {
+        promises.push(Item.update({_id: line.itemId}, {$inc: {inventory: -line.units}}));
+    });
+    return Promise.all(promises);
+}
+
 const orderService = {
-    processOrder: processOrder
+    processOrder,
+    updateInventory
 }
 
 module.exports = orderService;

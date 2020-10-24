@@ -5,7 +5,7 @@
     "producer": "test",
     "description": "test details",
     "imageUrl": "###",
-    "inventory": 1,
+    "inventory": 5,
     "discount": 2.11,
     "price": 11.11
 },
@@ -16,6 +16,6 @@
     "producer": "test",
     "description": "test details",
     "imageUrl": "###",
-    "inventory": 1,
+    "inventory": 3,
     "price": 22.22
 }]

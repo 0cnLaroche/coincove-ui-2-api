@@ -79,6 +79,47 @@ describe('orderService.js', () => {
             let target = await orderService.processOrder(order);
             assert.ok(target);
         })
+    });
+
+    describe('#updateInventory()', () => {
+        it('Should decrease inventory for each item', async () => {
+            await Item.deleteMany({}).exec();
+            let item1 = await Item.create(mockedItems[0]);
+            let item2 = await Item.create(mockedItems[1]);
+
+            let order = {
+                    billingAddress: null,
+                    shippingAddress: null,
+                    orderLines: [{
+                        description: "..........",
+                        itemId: "222222222222222222222222",
+                        units: 3,
+                        price: 22.22, 
+                        discount: 0
+                    },{
+                        description: "..........",
+                        itemId: "111111111111111111111111",
+                        units: 3,
+                        price: 11.11, 
+                        discount: -2.11
+                    }],
+                    taxes: [],
+                    shipping: 5.0,
+                    subtotal: 62.44,
+                    total: 67.44,
+                    paymentId: "000000000000"
+            };
+
+            await orderService.updateInventory(order.orderLines);
+            let updatedItem1 = await Item.findById(mockedItems[0]._id);
+            let updatedItem2 = await Item.findById(mockedItems[1]._id);
+
+            assert.ok(updatedItem1);
+            assert.strictEqual(updatedItem1.inventory, 2);
+            assert.ok(updatedItem2);
+            assert.strictEqual(updatedItem2.inventory, 0);
+            
+        })
     })
 
 })

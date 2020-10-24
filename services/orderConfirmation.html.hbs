@@ -1,8 +1,97 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"-->
-    <link rel="stylesheet" href="orderConfirmation.css">
+    <style>
+      body { 
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          margin-left: 100px;
+          margin-right: 100px;
+          background-color: #EEEEEE;
+      }
+      h1, h2 {
+          margin: 0;
+      }
+      header {
+          margin-top: 50px;
+          background-color: #723BC9;
+          padding: 15px 30px
+      }
+      main {
+          margin-top: 0px;
+          padding: 20px 25px;
+          background-color: #FFFFFF;
+          text-align: center;
+      }
+      footer, footer a:link, footer a:visited {
+          color: #cfcfcf;
+          text-align: center;
+          text-decoration: none;
+      }
+      footer a:hover {
+          text-decoration: underline;
+      }
+      header h1 {
+          color: #EEEEEE;
+          font-size: large;
+      }
+      .order {
+          width: 80%;
+          border-collapse: collapse;
+          margin: 5px auto;
+      }
+      .order td, th {
+          padding: 5px 7px;
+      }
+      .order th {
+          text-align: center;
+          background-color: #EEEEEE;
+      }
+      .order td:last-child {
+          text-align: right;
+      }
+      .order td:first-child {
+          text-align: left;
+      }
+      .order .description {
+          text-align: left;
+      }
+      .order .amount {
+          text-align: right;
+      }
+      .order .taxes-row td {
+          padding: 5px 5px 15px 7px ;
+      }
+      .order .total-row {
+          font-weight: bold;
+          border-top: 0.75px solid #EEEEEE;
+      }
+      .message h2 {
+          padding: 10px;;
+      }
+      .details-container div {
+          width: 35%;
+          display: inline-block;
+          vertical-align: top;
+          text-align: left;
+      }
+      .details-container address {
+          font-style: normal;
+          margin: 0 auto;
+      }
+      @media (max-width: 480px) {
+          body {
+              margin-left: 20px;
+              margin-right: 20px;
+              font-size: 13px;
+          }
+          .details-container div {
+              width: 80%;
+              display: block;
+              text-align: left;
+              margin: 5px auto;
+          }
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -21,27 +110,28 @@
         </colgroup>
         <tbody>
           <tr>
-            <th colspan="2">Order details</th>
+            <th colspan="3">Order details</th>
           </tr>
           {{#each orderLines}}
           <tr class="order-item">
             <td>{{this.description}}</td>
+            <td>{{this.units}}</td>
             <td>{{numberFormat this.price}}</td>
           </tr>
           {{/each}}
           <tr class="order-item shipping-row">
             <td>Shipping</td>
-            <td>{{numberFormat shipping}}</td>
+            <td colspan="2">{{numberFormat shipping}}</td>
           </tr>
           {{#each taxes}}
           <tr class="taxes-row">
             <td>{{this.tax}}</td>
-            <td>{{numberFormat this.amount}}/td>
+            <td colspan="2">{{numberFormat this.amount}}/td>
           </tr>
           {{/each}}
           <tr class="total-row">
             <td>TOTAL</td>
-            <td>${{numberFormat total}}</td>
+            <td colspan="2">${{numberFormat total}}</td>
           </tr>
         </tbody>
       </table>
@@ -62,7 +152,7 @@
       </div>
     </main>
     <footer>
-      <p>Copyright © <a href="https://ecove.ca">ecove solutions</a> 2020</p>
+      <p>Copyright © <a href="http://ecove.ca">ecove solutions</a> 2020</p>
     </footer>
   </body>
 </html>
