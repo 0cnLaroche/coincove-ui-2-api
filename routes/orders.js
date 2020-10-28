@@ -6,7 +6,6 @@ const paypalService = require('../services/paypalService');
 const mailer = require('../services/mailer');
 const { authenticateToken } = require('../jwt');
 const logger = require('../logger');
-const { auth } = require('googleapis/build/src/apis/abusiveexperiencereport');
 const router = express.Router();
 
 /** POST new order. Validates order before accepting it */

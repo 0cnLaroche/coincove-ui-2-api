@@ -6,9 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# Environment configurations
-.env
-
 # Keys
 *.pem
 
@@ -57,8 +54,12 @@ jspm_packages/
 .yarn-integrity
 
 # dotenv environment variables file
-#.env
-.env.test
+.env
+#.env.test
+# Configuration files Except default 
+config/*
+!config/default.yml
+!config/example.yml
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

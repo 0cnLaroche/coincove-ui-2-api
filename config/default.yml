@@ -1,0 +1,67 @@
+# HOST PROPERTIES
+host:
+  # Domain name
+  domain: < THIS VALUE SHOULD BE OVERRIDED >
+  # HTTP or HTTPS
+  protocol: https
+  # Server port
+  port: 443
+  # (production only) HTTP requests to this port are redirected to HTTPS
+  redirection_port: 80
+  # API route
+  api: /api
+
+# Web App build 
+distribution: < THIS VALUE SHOULD BE OVERRIDED >
+
+# DATA LAYER PROPERTIES
+data:
+  source: < THIS VALUE SHOULD BE OVERRIDED >
+  secret: < THIS VALUE SHOULD BE OVERRIDED >
+
+# E-MAIL PROPERTIES
+mail:
+  # SMTP server
+  host: box.ecove.ca
+  # SMTP username
+  username: dev-testing@ecove.ca
+  # Contact us emails are directed to this address
+  contact: dev-testing@ecove.ca
+
+# WEBSITE META DATA
+meta:
+  title: < THIS VALUE SHOULD BE OVERRIDED >
+  description_short: < THIS VALUE SHOULD BE OVERRIDED >
+  description: < THIS VALUE SHOULD BE OVERRIDED >
+  company_name: < THIS VALUE SHOULD BE OVERRIDED >
+
+# LOGGING LEVEL
+logging: info
+
+pay: 
+  api: https://api.sandbox.paypal.com
+  client_id: Ab8_gNCwzEzgMa1I7cqzfxVPBeB63uSYZNL6X5MgfqvB3kE7FBZIynQFpn5JVarL3fZhnD0QjWB
+
+order:
+  shipping:
+    rate: 0.0
+    threshold: 0.0
+
+theme:
+  primary: #2196f3
+  secondary: #f50057
+  logo: ecove-logo.png
+
+security:
+  jwt:
+    expiry: 30m
+    secret: mySecret
+  pay:
+    secret: ENRMlC6LdSpCgm0FzS5U80ooWlE-90ox0vUzYEa9lvog4fcOmdtdMzeJ1PUmuNJiLZU_MIbnmsv88Pci
+  mail:
+    secret: f95StUeX5k
+  tls:
+    key: /Users/samuel/dev/coincove-ui-2-api/key.pem
+    cert: /Users/samuel/dev/coincove-ui-2-api/cert.pem
+  data:
+    secret: < THIS VALUE SHOULD BE OVERRIDED >

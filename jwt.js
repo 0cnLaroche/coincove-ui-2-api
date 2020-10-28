@@ -1,9 +1,10 @@
 var jwt = require('jsonwebtoken');
-var dotenv = require('dotenv');
+const config = require('config');
 var logger = require('./logger');
 
-// Loading Environement varibles
-dotenv.config();
+// Loading environment configurations
+const SECRET = config.get('security.jwt.secret');
+const EXPIRY = config.get('security.jwt.expiry');
 
 /**
  * JSON Web Token authentication middleware
@@ -17,7 +18,7 @@ const authenticateToken = (req, res, next) => {
         logger.debug("No token provided")
         return res.status(401).send({error: "Missing authentication token"});
     }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err , user) => {
+    jwt.verify(token, SECRET, (err , user) => {
         if (err) {
             logger.debug(`${err.message} for token ${token}`);
             // FORBIDDEN
@@ -34,8 +35,8 @@ const authenticateToken = (req, res, next) => {
  * @param {*} content of the JWT token 
  */
 const generateAccessToken = (content) => {
-    return jwt.sign(content, process.env.ACCESS_TOKEN_SECRET, 
-        {expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "30m"})
+    return jwt.sign(content, SECRET, 
+        {expiresIn: EXPIRY || "30m"})
 }
 
 module.exports = {authenticateToken, generateAccessToken};

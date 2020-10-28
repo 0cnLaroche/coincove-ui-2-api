@@ -4,7 +4,6 @@ var { generateAccessToken } = require('../jwt');
 var { User } = require('../model/user');
 var logger = require('../logger');
 var router = express.Router();
-var mockedToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjb2luY292ZS11aS0yIiwibmFtZSI6IlNhbXVlbCBMYXJvY2hlIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJzYW11ZWxsYXJvY2hlQGxpdmUuY2EiLCJpYXQiOjE1MTYyMzkwMjJ9.hlUVKoHw1dFJq0keEhPeWQ-dkXFYf2n4FcK4e2Y6qEg";
 
 /* POST login with email/password */
 router.post("/", async (req, res) => {

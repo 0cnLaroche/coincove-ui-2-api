@@ -2,14 +2,17 @@ const nodemailer = require('nodemailer');
 const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
+const config = require('config');
 const dotenv = require('dotenv');
 var logger = require('../logger');
 
 dotenv.config();
 
-const USER = process.env.SMTP_USERNAME;
-const PWD = process.env.SMTP_PASSWORD;
-const HOST = process.env.SMTP_HOST;
+const USER = config.get('mail.username');
+const PWD = config.get('security.mail.secret');
+const HOST = config.get('mail.host');
+const SENDER_NAME = config.get('meta.company_name');
+const CONTACT_EMAIL = config.get('mail.contact');
 
 // Create transport from options
 const transporter = nodemailer.createTransport({
@@ -64,7 +67,7 @@ const send = (to, subject, body) => {
         to = to.join(', ');
     }
     return transporter.sendMail({
-        from: `"${process.env.COMPANY_NAME}" <${process.env.SMTP_USERNAME}>`,
+        from: `"${SENDER_NAME}" <${USER}>`,
         to,
         subject,
         html: body
@@ -86,7 +89,7 @@ const sendOnBehalfOf = (to, onBehalfOf, subject, body) => {
     return transporter.sendMail({
         //from: onBehalfOf, // Doesn't seem to be working
         //sender: `"${process.env.COMPANY_NAME}" <${process.env.SMTP_USERNAME}>`,
-        from: `"${process.env.COMPANY_NAME}" <${process.env.SMTP_USERNAME}>`,
+        from: `"${SENDER_NAME}" <${USER}>`,
         to,
         replyTo: onBehalfOf,
         subject,
@@ -96,7 +99,7 @@ const sendOnBehalfOf = (to, onBehalfOf, subject, body) => {
 
 const sendOrderConfirmation = async (order) => {
     const to = order.email;
-    order.company = process.env.COMPANY_NAME;
+    order.company = SENDER_NAME;
     const filePath = path.join(__dirname, 'orderConfirmation.html.hbs');
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, (err, data) => {
@@ -109,10 +112,10 @@ const sendOrderConfirmation = async (order) => {
             }
             const template = handlebars.compile(data.toString());
             transporter.sendMail({
-                from: {name: process.env.COMPANY_NAME, address: process.env.SMTP_USERNAME},
+                from: {name: SENDER_NAME, address: USER},
                 to,
-                bcc: process.env.CONTACT_EMAIL,
-                replyTo: {name: "Sales", address: process.env.SMTP_USERNAME},
+                bcc: CONTACT_EMAIL,
+                replyTo: {name: "Sales", address: USER},
                 subject: "Order Confirmation",
                 html: template(order)
             }).then(data => {

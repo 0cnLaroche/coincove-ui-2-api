@@ -1,12 +1,14 @@
 const axios = require('axios');
 const querystring = require('querystring');
+const config = require('config');
 const dotenv = require('dotenv');
 const logger = require('../logger');
-const { isNullOrUndefined } = require('util');
 
 /* Load environement variables */
 dotenv.config();
-
+const SECRET = config.get('security.pay.secret');
+const CLIENT_ID = config.get('pay.client_id')
+const API = config.get('pay.api');
 
 axios.interceptors.request.use(request => {
     logger.debug('Starting Request: %O', {
@@ -35,17 +37,17 @@ const testNonStatic = () => {
  * Call Paypal API to obtain authentication
  */
 const fetchAuthentication = async () => {
-    const url = `${process.env.PAYPAL_URL}/v1/oauth2/token`;
-    config = {
+    const url = `${API}/v1/oauth2/token`;
+    const options = {
         auth: {
-            username: process.env.PAYPAL_CLIENT_ID,
-            password: process.env.PAYPAL_SECRET
+            username: CLIENT_ID,
+            password: SECRET
         },
         headers: {
             'content-type': 'application/x-www-form-urlencoded'
         }
     }
-    const response = await axios.post(url, 'grant_type=client_credentials', config);
+    const response = await axios.post(url, 'grant_type=client_credentials', options);
     if (response.status === 200) {
         return response.data;
     } else if (response.status === 401){
@@ -96,7 +98,7 @@ class PaypalService {
      * @param {String} authorizationId 
      */
     async getPayment(authorizationId) {
-        const url = `${process.env.PAYPAL_URL}/v2/payments/captures/${authorizationId}`
+        const url = `${API}/v2/payments/captures/${authorizationId}`
         const token = await this.getAccessToken();
         const config = {
             headers: { 
@@ -114,9 +116,9 @@ class PaypalService {
      * @param carrier carrier name
      */
     async postTrackingId(transaction_id, tracking_number, carrier) {
-        const url = `${process.env.PAYPAL_URL}/v1/shipping/trackers-batch`
+        const url = `${API}/v1/shipping/trackers-batch`
         const token = await this.getAccessToken();
-        const config = {
+        const options = {
             headers: { 
                 'authorization' : `Bearer ${token}`
             }
@@ -131,7 +133,7 @@ class PaypalService {
               },
             ]
         }
-        return await axios.post(url, data, config);
+        return await axios.post(url, data, options);
     }
 }
 

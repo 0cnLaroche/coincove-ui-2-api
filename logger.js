@@ -1,9 +1,10 @@
 const { createLogger, format, transports } = require('winston');
 const dotenv = require('dotenv');
+const config = require('config');
 dotenv.config();
 
 const logger = createLogger({
-  level: process.env.LOGGING_LEVEL || 'info',
+  level: config.get('logging') || 'info',
   format: format.combine(
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
@@ -34,6 +35,12 @@ if (process.env.NODE_ENV !== 'production') {
       format.simple()
     )
   }));
+}
+
+logger.stream = {
+  write: (message, encoding) => {
+    logger.info(message);
+  }
 }
 
 module.exports = logger;

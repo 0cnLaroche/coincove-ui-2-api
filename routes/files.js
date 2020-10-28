@@ -1,6 +1,7 @@
 var express = require('express');
 var multer = require('multer');
 var fs = require('fs');
+const config = require('config');
 var dotenv = require('dotenv');
 var { Image, validateImage } = require('../model/image');
 var { authenticateToken } = require('../jwt');
@@ -11,11 +12,11 @@ var upload = multer();
 dotenv.config();
 
 const createFileUrl = (id, protocol) => {
-    var base = `${protocol}://${process.env.HOST}`
+    var base = `${protocol}://${config.get('host.domain')}`
     var url = new URL(base);
-    url.pathname = `${process.env.API_CONTEXT_PATH}/files/picture/${id}`;
+    url.pathname = `${config.get('host.api')}/files/picture/${id}`;
     if (process.env.NODE_ENV === 'development') {
-        url.port = process.env.PORT;
+        url.port = config.get('host.port');
     }
     console.log(url);
     return url;

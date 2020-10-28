@@ -1,4 +1,5 @@
 require('dotenv').config();
+const config = require('config');
 const express = require('express');
 const handlebars = require('handlebars');
 const fs = require('fs');
@@ -16,7 +17,7 @@ router.post('/', (req, res) => {
         }
         const template = handlebars.compile(data.toString());
         mailer.sendOnBehalfOf(
-            process.env.CONTACT_EMAIL,
+            config.get('mail.contact'),
             { name, address: email },
             "Information Request", 
             template({message, email, name}))

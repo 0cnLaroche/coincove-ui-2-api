@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/:id', authenticateToken, async (req, res) => {
-  if ((req.user._id != req.param('id'))
+  if ((req.user._id != req.params('id'))
   || req.user.isAdmin) {
     return res.status(401).send();
   }
