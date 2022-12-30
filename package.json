@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.10.4",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "nodemon": "^2.0.4"
   }
 }
